@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<script>
+        $(function(){
+          $("#file").on("change", function(){
+              /*Limpiar vista previa*/
+              $("#vista-previa").html('');
+              var archivos = document.getElementById('file').files; /*selecciono todos los archivos??*/
+              var navegador = window.URL || window.webkitURL;
+              /*Recorrer los archivos*/
+              for(x=0; x<archivos.length; x++){
+                  /*validar tamaño y tipo de archivo*/
+                  var size = archivos[x].size;
+                  var type = archivos[x].type;
+                  var name = archivos[x].name;
+                  if(size>1024*1204){
+                      $("#vista-previa").append("<p style='color: red'>El archivo "+name+" supera el maximo permitido 1MB</p>");
+                  }else if(type != 'image/jpeg' && type != 'image/jpg' && type !='image/png'){
+                      $("#vista-previa").append("<p style='color: blue'>El archivo "+name+" no es el tipo de imagen permitido</p>");
+                  }else{
+                      var objeto_url = navegador.createObjectURL(archivos[x]);
+                      $("#vista-previa").append("<div class='item'> <img src="+objeto_url+" width='400' height='400'></div>");/*aqui puedo conectar con el carrusel*/
+                  }
+              }
+          });
+        });
+    </script>
+<body>
+
+<div class="container">
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+
+    <!-- Wrapper for slides -->
+    
+    <div class="carousel-inner" id="vista-previa"> <!-- no me permite mostrar las imagenes por carrusel -->
+        <!--<div class="item" id="vista-previa" style="">
+        </div>-->
+    </div>
+    <div class="col-sm-4">
+        <label for="ex3">Foto</label>
+        <input class="form-control" id="file" type="file" name="archivo[]" id="file[]" accept="image/jpg" multiple>
+    </div>
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>
